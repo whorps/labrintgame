@@ -1,6 +1,5 @@
 import pygame
 
-
 class Cell:
     def __init__(self, x, y, thickness):
         self.x, self.y = x, y
