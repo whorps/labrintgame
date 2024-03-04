@@ -42,7 +42,7 @@ class Game:
 
     # mål för spelare att nå
     def finish(self, screen):
-        img_path = 'img/gate.png'
+        img_path = 'assets/gate.png'
         img = pygame.image.load(img_path)
         img = pygame.transform.scale(img, (self.tile, self.tile))
         screen.blit(img, (self.goal_cell.x * self.tile, self.goal_cell.y * self.tile))
