@@ -5,7 +5,7 @@ SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 700
 SCREEN_TITLE = "Labyrint Game"
 
-PLAYER_SPEED = 4  # player speed
+PLAYER_SPEED = 4
 
 # mazen som bakgrund
     def background(self):
@@ -16,9 +16,9 @@ PLAYER_SPEED = 4  # player speed
                                         SCREEN_WIDTH, SCREEN_HEIGHT,
                                         self.background)
 
-# spelarens movement
+# players movement
     def player_movement(self):
-        # players movement
+        # registers movement
         self.left_pressed = False
         self.right_pressed = False
         self.up_pressed = False
