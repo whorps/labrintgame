@@ -1,4 +1,7 @@
 # labyrint game
+    # python arcade library
+    # https://thepythoncode.com/article/build-a-maze-game-in-python
+    # daniels DodgeBird game
 import arcade
 
 SCREEN_WIDTH = 700
