@@ -10,7 +10,7 @@ SCREEN_TITLE = "Labyrint Game"
 
 PLAYER_SPEED = 4
 
-# mazen som bakgrund
+# bakgrund
     def background(self):
         # Background image will be stored in this variable
         self.background = None
