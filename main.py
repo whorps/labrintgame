@@ -11,6 +11,7 @@ SCREEN_TITLE = "Labyrint Game"
 PLAYER_SPEED = 4
 
 # bakgrund
+class game(arcade):
     def background(self):
         # Background image will be stored in this variable
         self.background = None
@@ -54,6 +55,5 @@ PLAYER_SPEED = 4
         self.run = True
 
     window = SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE
-    window.setup()
 
     arcade.run()
