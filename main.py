@@ -10,15 +10,9 @@ SCREEN_TITLE = "Labyrint Game"
 
 PLAYER_SPEED = 4
 
-# bakgrund
-class game(arcade):
-    def background(self):
-        # Background image will be stored in this variable
-        self.background = None
-        self.background = arcade.load_texture("assets/maze.jpg")
-        arcade.draw_lrwh_rectangle_textured(0, 0,
-                                            SCREEN_WIDTH, SCREEN_HEIGHT,
-                                            self.background)
+class Player(arcade.Sprite):
+    def __int__(self):
+        super().__init__("")
 
     # players movement
     def player_movement(self):
@@ -27,9 +21,21 @@ class game(arcade):
         self.right_pressed = False
         self.up_pressed = False
         self.down_pressed = False
+# bakgrund
+class LabyrintGame(arcade.Window):
+    def __init__(self, width, height, title):
+        super().__init__(width, height, title)
+        """Background"""
+        self.background = arcade.load_texture("assets/maze.jpg")
+
+    def on_draw(self):
+        arcade.start_render()
+        """Background"""
+        arcade.draw_lrwh_rectangle_textured(0, 0,
+                                            SCREEN_WIDTH, SCREEN_HEIGHT,
+                                            self.background)
 
     # collision
-
     def borderCollisison(self):
         # provents to travel outside the screen
         if self.center_y <= 20:
@@ -62,13 +68,12 @@ class game(arcade):
             return False
 
     # starts game
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
-        self.setup()
-
-    # turns game on
-    def setup(self):
-        self.run = True
 
 
+def main():
+    game = LabyrintGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     arcade.run()
+
+
+if __name__ == "__main__":
+    main()
