@@ -9,24 +9,47 @@ SCREEN_HEIGHT = 700
 SCREEN_TITLE = "Labyrint Game"
 
 PLAYER_SPEED = 4
+PLAYER_WIDTH = 50
+PLAYER_HEIGHT = 50
+PLAYER_COLOR = arcade.color.DARK_BROWN
 
-class Player(arcade.Sprite):
-    def __int__(self):
-        super().__init__("")
-
+class PLAYER():
     # players movement
-    def player_movement(self):
-        # registers movement
-        self.left_pressed = False
-        self.right_pressed = False
-        self.up_pressed = False
-        self.down_pressed = False
+    def __init__(self):
+        self.center_x = 0
+        self.center_y = 0
+        self.change_x = 0
+        self.change_y = 0
+
+    def update(self):
+        # Update player position based on pressed keys
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+
+    def draw(self):
+        # Draw the player
+        arcade.draw_rectangle_filled(self.center_x,
+                                     self.center_y,
+                                     PLAYER_WIDTH,
+                                     PLAYER_HEIGHT,
+                                     PLAYER_COLOR)
 # bakgrund
 class LabyrintGame(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
         """Background"""
         self.background = arcade.load_texture("assets/maze.jpg")
+
+        # Create our rectangle
+        self.player = PLAYER()
+        self.player.center_x = 200
+        self.player.center_y = 300
+        self.player.change_x = 4
+        self.player.change_y = 4
+
+    def on_update(self, delta_time):
+        # Move the rectangle
+        self.player.update()
 
     def on_draw(self):
         arcade.start_render()
@@ -35,7 +58,7 @@ class LabyrintGame(arcade.Window):
                                             SCREEN_WIDTH, SCREEN_HEIGHT,
                                             self.background)
 
-    # collision
+    # collision förbättra
     def borderCollisison(self):
         # provents to travel outside the screen
         if self.center_y <= 20:
@@ -60,6 +83,7 @@ class LabyrintGame(arcade.Window):
         return msg
 
     # checks if player reached the goal point
+    #gör det snyggare
     def is_game_over(self, player):
         goal_cell_abs_x, goal_cell_abs_y = self.goal_cell.x * self.tile, self.goal_cell.y * self.tile
         if player.x >= goal_cell_abs_x and player.y >= goal_cell_abs_y:
@@ -69,9 +93,8 @@ class LabyrintGame(arcade.Window):
 
     # starts game
 
-
 def main():
-    game = LabyrintGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    LabyrintGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     arcade.run()
 
 
