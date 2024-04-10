@@ -9,15 +9,15 @@ SCREEN_HEIGHT = 700
 SCREEN_TITLE = "Labyrint Game"
 
 PLAYER_SPEED = 4
-PLAYER_WIDTH = 50
-PLAYER_HEIGHT = 50
+PLAYER_WIDTH = 35
+PLAYER_HEIGHT = 35
 PLAYER_COLOR = arcade.color.DARK_BROWN
 
-class PLAYER():
+class Player():
     # players movement
     def __init__(self):
-        self.center_x = 0
-        self.center_y = 0
+        self.center_x = 85
+        self.center_y = 85
         self.change_x = 0
         self.change_y = 0
 
@@ -33,23 +33,17 @@ class PLAYER():
                                      PLAYER_WIDTH,
                                      PLAYER_HEIGHT,
                                      PLAYER_COLOR)
-# bakgrund
+
+
 class LabyrintGame(arcade.Window):
+    # bakgrund
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
         """Background"""
         self.background = arcade.load_texture("assets/maze.jpg")
+        self.player = Player()
 
-        # Create our rectangle
-        self.player = PLAYER()
-        self.player.center_x = 200
-        self.player.center_y = 300
-        self.player.change_x = 4
-        self.player.change_y = 4
 
-    def on_update(self, delta_time):
-        # Move the rectangle
-        self.player.update()
 
     def on_draw(self):
         arcade.start_render()
@@ -57,6 +51,7 @@ class LabyrintGame(arcade.Window):
         arcade.draw_lrwh_rectangle_textured(0, 0,
                                             SCREEN_WIDTH, SCREEN_HEIGHT,
                                             self.background)
+        self.player.draw()
 
     # collision förbättra
     def borderCollisison(self):
