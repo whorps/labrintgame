@@ -11,13 +11,14 @@ SCREEN_TITLE = "Labyrint Game"
 PLAYER_SPEED = 4
 PLAYER_WIDTH = 35
 PLAYER_HEIGHT = 35
-PLAYER_COLOR = arcade.color.DARK_BROWN
-
+PLAYER_COLOR = arcade.color.ARMY_GREEN
+START_COORD_X = 85
+START_COORD_Y = 85
 class Player():
     # players movement
     def __init__(self):
-        self.center_x = 85
-        self.center_y = 85
+        self.center_x = START_COORD_X
+        self.center_y = START_COORD_Y
         self.change_x = 0
         self.change_y = 0
 
@@ -33,7 +34,7 @@ class Player():
                                      PLAYER_WIDTH,
                                      PLAYER_HEIGHT,
                                      PLAYER_COLOR)
-
+        
 
 class LabyrintGame(arcade.Window):
     # bakgrund
@@ -42,8 +43,6 @@ class LabyrintGame(arcade.Window):
         """Background"""
         self.background = arcade.load_texture("assets/maze.jpg")
         self.player = Player()
-
-
 
     def on_draw(self):
         arcade.start_render()
@@ -86,8 +85,8 @@ class LabyrintGame(arcade.Window):
         else:
             return False
 
-    # starts game
 
+# starts game
 def main():
     LabyrintGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     arcade.run()
