@@ -8,12 +8,16 @@ SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 700
 SCREEN_TITLE = "Labyrint Game"
 
-PLAYER_SPEED = 4
+GOAL_POINT_CORD_X = 667
+GOAL_POINT_CORD_Y = 321
+
 PLAYER_WIDTH = 35
 PLAYER_HEIGHT = 35
 PLAYER_COLOR = arcade.color.ARMY_GREEN
 START_COORD_X = 85
 START_COORD_Y = 85
+
+
 class Player():
     # players movement
     def __init__(self):
@@ -34,57 +38,75 @@ class Player():
                                      PLAYER_WIDTH,
                                      PLAYER_HEIGHT,
                                      PLAYER_COLOR)
-        
+
+
+class Gate(arcade.Sprite):
+    def __init__(self, texture_file_path, center_x, center_y, scale=1.0):
+        super().__init__(texture_file_path, scale=scale)
+        self.center_x = center_x
+        self.center_y = center_y
+
+    # Override the draw method to use the loaded texture
+    def draw(self):
+        super().draw()
+
 
 class LabyrintGame(arcade.Window):
-    # bakgrund
+    # background and player
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
-        """Background"""
         self.background = arcade.load_texture("assets/maze.jpg")
+        self.gate = Gate("assets/gate.png", GOAL_POINT_CORD_X, GOAL_POINT_CORD_Y, scale=0.115)
         self.player = Player()
 
     def on_draw(self):
+        # render background and player
         arcade.start_render()
-        """Background"""
         arcade.draw_lrwh_rectangle_textured(0, 0,
                                             SCREEN_WIDTH, SCREEN_HEIGHT,
                                             self.background)
+        self.gate.draw()
         self.player.draw()
 
-    # collision förbättra
+    def update(self, delta_time: float):
+        # update border, player and gate
+        self.borderCollisison()
+        self.gate.update()
+        self.player.update()
+
+    # border collision
     def borderCollisison(self):
         # provents to travel outside the screen
-        if self.center_y <= 20:
-            self.center_y = 20
-        if self.center_y >= SCREEN_HEIGHT:
-            self.center_y = SCREEN_HEIGHT
-        if self.center_x <= 0:
-            self.center_x = 0
-        if self.center_x >= SCREEN_WIDTH:
-            self.center_x = SCREEN_WIDTH
+        if self.player.center_y <= 20:
+            self.player.center_y = 20
+        if self.player.center_y >= SCREEN_HEIGHT:
+            self.player.center_y = SCREEN_HEIGHT
+        if self.player.center_x <= 0:
+            self.player.center_x = 0
+        if self.player.center_x >= SCREEN_WIDTH:
+            self.player.center_x = SCREEN_WIDTH
 
-    # goal point for players to reach
-    def add_goal_point(self, screen):
-        # adding gate for the goal point
-        img_path = 'assets/gate.png'
-        img = arcade.load_texture(img_path)
-        screen.blit(img, (self.goal_cell.x * self.tile, self.goal_cell.y * self.tile))
+    def on_key_press(self, symbol: int, modifiers: int):
+        # when key pressed change x, Y
+        if symbol == arcade.key.W:
+            self.player.change_y += 2
+        if symbol == arcade.key.S:
+            self.player.change_y += -2
+        if symbol == arcade.key.D:
+            self.player.change_x += 2
+        if symbol == arcade.key.A:
+            self.player.change_x += -2
 
-    # winning message when reaching goal point
-    def message(self):
-        msg = self.font.render('You Win!!', True, self.message_color)
-        return msg
-
-    # checks if player reached the goal point
-    #gör det snyggare
-    def is_game_over(self, player):
-        goal_cell_abs_x, goal_cell_abs_y = self.goal_cell.x * self.tile, self.goal_cell.y * self.tile
-        if player.x >= goal_cell_abs_x and player.y >= goal_cell_abs_y:
-            return True
-        else:
-            return False
-
+    def on_key_release(self, symbol: int, modifiers: int):
+        # when key released. stop
+        if symbol == arcade.key.W:
+            self.player.change_y = 0
+        if symbol == arcade.key.S:
+            self.player.change_y = 0
+        if symbol == arcade.key.D:
+            self.player.change_x = 0
+        if symbol == arcade.key.A:
+            self.player.change_x = 0
 
 # starts game
 def main():
