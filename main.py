@@ -4,6 +4,7 @@
 # daniels DodgeBird game
 import arcade
 
+# information to provent magic numbers
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 700
 SCREEN_TITLE = "Labyrint Game"
