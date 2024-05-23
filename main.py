@@ -1,8 +1,12 @@
+# collision med svarta väggar är ett helvete
+# Olle jag fattar fan inte vad jag ska göra
+# men jag och chat gpt har gjort vårt bästa
+
 import arcade
 import numpy as np
 from PIL import Image
 
-# Constants
+# saker
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 700
 SCREEN_TITLE = "Labyrinth Game"
@@ -25,7 +29,7 @@ class Player(arcade.Sprite):
         self.change_x = 0
         self.change_y = 0
 
-        # Set the hitbox
+        # hitbox
         self.set_hit_box([
             (-PLAYER_WIDTH // 2, -PLAYER_HEIGHT // 2),
             (PLAYER_WIDTH // 2, -PLAYER_HEIGHT // 2),
@@ -34,16 +38,16 @@ class Player(arcade.Sprite):
         ])
 
     def update(self, maze_data):
-        # Calculate new position
+        # Beräkna ny position
         new_x = self.center_x + self.change_x
         new_y = self.center_y + self.change_y
 
-        # Check for collision with walls
+        # Kontrollera collision med väggar
         if not self.is_colliding_with_wall(new_x, new_y, maze_data):
             self.center_x = new_x
             self.center_y = new_y
 
-        # Border collision
+        # collision med windowfliken
         if self.center_x < PLAYER_WIDTH / 2:
             self.center_x = PLAYER_WIDTH / 2
         if self.center_x > SCREEN_WIDTH - PLAYER_WIDTH / 2:
@@ -54,13 +58,13 @@ class Player(arcade.Sprite):
             self.center_y = SCREEN_HEIGHT - PLAYER_HEIGHT / 2
 
     def is_colliding_with_wall(self, x, y, maze_data):
-        # Convert player position to pixel indices
+        # Konvertera spelarens position till pixelindex
         left = int(x - PLAYER_WIDTH / 2)
         right = int(x + PLAYER_WIDTH / 2)
         bottom = int(y - PLAYER_HEIGHT / 2)
         top = int(y + PLAYER_HEIGHT / 2)
 
-        # Check if player's corners are in a wall
+        # Kontrollera om spelarens hörn är i en vägg
         for ix in range(left, right):
             for iy in range(bottom, top):
                 if maze_data[iy, ix] == 0:
@@ -68,7 +72,7 @@ class Player(arcade.Sprite):
         return False
 
     def draw(self):
-        # Draw the player
+        # Rita spelaren
         arcade.draw_rectangle_filled(self.center_x,
                                      self.center_y,
                                      PLAYER_WIDTH,
@@ -91,12 +95,12 @@ class LabyrinthGame(arcade.Window):
         self.gate = Gate("assets/gate.png", GOAL_POINT_CORD_X, GOAL_POINT_CORD_Y, scale=0.115)
         self.player = Player()
         self.win = False
-        # Load maze image and convert it to a numpy array
-        self.maze_image = Image.open("assets/maze.jpg").convert("L")  # Convert to grayscale
+        # Ladda labyrintbilden och konvertera den till en numpy-array
+        self.maze_image = Image.open("assets/maze.jpg").convert("L")  # Konvertera till gråskala
         self.maze_data = np.array(self.maze_image)
 
     def on_draw(self):
-        # Render background, player, and gate
+        # Rendera bakgrund, player och gate
         arcade.start_render()
         arcade.draw_lrwh_rectangle_textured(0, 0,
                                             SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -109,7 +113,7 @@ class LabyrinthGame(arcade.Window):
                              arcade.color.BLACK, 54, anchor_x="center")
 
     def update(self, delta_time: float):
-        # Update player and check for win
+        # Uppdatera spelare och kontrollera vinst
         if not self.win:
             self.player.update(self.maze_data)
             self.check_for_win()
@@ -121,7 +125,7 @@ class LabyrinthGame(arcade.Window):
             self.player.change_y = 0
 
     def on_key_press(self, symbol: int, modifiers: int):
-        # When key pressed, change x, y
+        # movement
         if not self.win:
             if symbol == arcade.key.W:
                 self.player.change_y = PLAYER_SPEED
@@ -133,14 +137,14 @@ class LabyrinthGame(arcade.Window):
                 self.player.change_x = -PLAYER_SPEED
 
     def on_key_release(self, symbol: int, modifiers: int):
-        # When key released, stop
+        # När tangent släpps, stoppa
         if not self.win:
             if symbol in {arcade.key.W, arcade.key.S}:
                 self.player.change_y = 0
             if symbol in {arcade.key.D, arcade.key.A}:
                 self.player.change_x = 0
 
-# Start game
+# Starta spelet
 def main():
     LabyrinthGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     arcade.run()
